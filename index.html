@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be Mine?</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #87cefa, #ffffff);
+    overflow: hidden;
+    text-align: center;
+    color: #333;
+    height: 100vh;
+    position: relative;
+  }
+
+  h1 {
+    margin-top: 50px;
+    font-size: 3em;
+    color: #ff6b81;
+    text-shadow: 2px 2px 4px #aaa;
+  }
+
+  p {
+    font-size: 1.5em;
+    margin: 20px;
+  }
+
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff6b81;
+    transform: rotate(-45deg);
+    animation: float 4s linear infinite;
+  }
+  .heart:before,
+  .heart:after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff6b81;
+    border-radius: 50%;
+  }
+  .heart:before { top: -10px; left: 0; }
+  .heart:after { left: 10px; top: 0; }
+
+  @keyframes float {
+    0% {transform: translateY(0) rotate(-45deg); opacity: 1;}
+    100% {transform: translateY(-800px) rotate(-45deg); opacity: 0;}
+  }
+
+  .btn {
+    padding: 15px 40px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: #ff6b81;
+    color: white;
+    transition: 0.3s;
+    position: absolute;
+  }
+
+  /* Center both buttons */
+  #yesBtn { left: 50%; top: 60%; transform: translateX(-120%); }
+  #noBtn { left: 50%; top: 60%; transform: translateX(20%); }
+
+  .btn:hover { background-color: #ff4757; }
+
+  #message {
+    font-size: 2em;
+    color: #ff4757;
+    margin-top: 30px;
+    position: relative;
+    z-index: 10;
+    min-height: 50px;
+  }
+</style>
+</head>
+<body>
+
+<h1> I Love You So Much Madam ji❤️</h1>
+<p>  Btao Madam jii Aapka kya Opinion Hain 💖</p>
+
+<button class="btn" id="yesBtn" onclick="yesClick()">Yes</button>
+<button class="btn" id="noBtn" onclick="noClick()">No</button>
+
+<p id="message"></p>
+
+<audio id="bgMusic" loop>
+  <source src="jaana.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let musicStarted = false;
+
+function startMusic() {
+  if (!musicStarted) {
+    const music = document.getElementById('bgMusic');
+    music.play().catch(e => console.log("Music play blocked:", e));
+    musicStarted = true;
+  }
+}
+
+document.getElementById('yesBtn').addEventListener('click', startMusic);
+document.getElementById('noBtn').addEventListener('click', startMusic);
+</script>
+<script>
+let noClickCount = 0;
+
+// Heart animation
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.style.left = Math.random() * window.innerWidth + 'px';
+  heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
+setInterval(createHeart, 300);
+
+function yesClick() {
+  document.getElementById('message').innerText = "Yay!  Ye hui na meri WIFE bali baat💖 You made me the happiest!";
+}
+
+function noClick() {
+  noClickCount++;
+  const message = document.getElementById('message');
+
+  // Show text depending on click count
+  if (noClickCount === 1) {
+    message.innerText = "Hmm 😕 Think again...";
+  } else if (noClickCount === 2) {
+    message.innerText = "Aaram se shocho 😴 itni jaldi nahi press karne ki!";
+  } else if (noClickCount === 3) {
+    message.innerText = " Are smj nhi aa rha kya yes bala button press krna hain 😡😏";
+  } else {
+    message.innerText = "Nhi manoge tum Ab dekho kya krta hu me 😎";
+    moveNoButtonRandom(); // 4th click onwards button shift
+  }
+}
+
+function moveNoButtonRandom() {
+  const btn = document.getElementById('noBtn');
+  const padding = 50;
+  const maxX = window.innerWidth - btn.offsetWidth - padding;
+  const maxY = window.innerHeight - btn.offsetHeight - padding;
+
+  // Random corner / position
+  const positions = [
+    {x: padding, y: padding}, // top-left
+    {x: maxX, y: padding},    // top-right
+    {x: padding, y: maxY},    // bottom-left
+    {x: maxX, y: maxY},       // bottom-right
+    {x: Math.random() * maxX, y: Math.random() * maxY} // random
+  ];
+
+  const randomPos = positions[Math.floor(Math.random() * positions.length)];
+  btn.style.left = randomPos.x + 'px';
+  btn.style.top = randomPos.y + 'px';
+}
+</script>
+
+</body>
+</html>
